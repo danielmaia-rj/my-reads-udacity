@@ -11,12 +11,14 @@ const Book = (props) => {
                         style={{
                             width: 128,
                             height: 193,
-                            backgroundImage: `url(${props.book.imageLinks.thumbnail})`
+                            backgroundImage: `url(${props.book.imageLinks && props.book.imageLinks.thumbnail
+                                ? `${props.book.imageLinks.thumbnail}`
+                                : `http://via.placeholder.com/128x193?text=No%20Cover`})`
                         }}
                     />
                     <div className="book-shelf-changer">
                         <select onChange={(event) => props.changeBookShelf(props.book.id, event.currentTarget.value)} value={props.book.shelf}>
-                            <option value="none" disabled>Move to...</option>
+                            <option value="" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
                             <option value="read">Read</option>
@@ -25,7 +27,7 @@ const Book = (props) => {
                     </div>
                 </div>
                 <div className="book-title">{props.book.title}</div>
-                <div className="book-authors">{props.book.authors}</div>
+                <div className="book-authors">{props.book.authors ? props.book.authors.join(', ') : ''}</div>
             </div>
         </li>
     );
