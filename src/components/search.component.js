@@ -25,6 +25,7 @@ class Search extends Component {
             BooksAPI.search(value, 10).then(books => {
                 if (books.length > 0) {
                     books = books.filter(book => book.imageLinks);
+
                     books = this.changeBookShelf(books);
 
                     this.setState({
@@ -46,12 +47,12 @@ class Search extends Component {
 
     changeBookShelf = (books) => {
         for (let book of books) {
-            for (let booksFromMyReads of this.props.books) {
-                if (booksFromMyReads.id === book.id) {
-                    book.shelf = booksFromMyReads.shelf;
-                } else {
-                    book.shelf = 'none';
-                }
+            let bookOnShelf = this.props.books.find(b => b.id === book.id);
+
+            if (bookOnShelf) {
+                book.shelf = bookOnShelf.shelf;
+            } else {
+                book.shelf = 'none';
             }
         }
         return books;
